@@ -1,0 +1,25 @@
+{
+  "name": "skill-tech-stack-research",
+  "owner": {
+    "name": "Irina Nazarova",
+    "url": "https://github.com/irinanazarova"
+  },
+  "metadata": {
+    "description": "Claude Code skill for researching a company's real production tech stack",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "research-tech-stack",
+      "description": "Research a startup's real tech stack by triangulating GitHub repos, job postings, engineering blogs, and infrastructure signals",
+      "version": "1.0.0",
+      "author": {
+        "name": "Irina Nazarova",
+        "url": "https://github.com/irinanazarova"
+      },
+      "homepage": "https://github.com/irinanazarova/skill-tech-stack-research",
+      "tags": ["research", "tech-stack", "startups", "due-diligence"],
+      "source": "./research-tech-stack"
+    }
+  ]
+}

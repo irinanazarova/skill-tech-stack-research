@@ -1,0 +1,19 @@
+{
+  "name": "research-tech-stack",
+  "version": "1.0.0",
+  "description": "Research a startup's real tech stack by triangulating GitHub repos, job postings, engineering blogs, and infrastructure signals",
+  "author": {
+    "name": "Irina Nazarova",
+    "url": "https://github.com/irinanazarova"
+  },
+  "homepage": "https://github.com/irinanazarova/skill-tech-stack-research",
+  "repository": "https://github.com/irinanazarova/skill-tech-stack-research",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "tech-stack",
+    "startups",
+    "due-diligence",
+    "competitive-intelligence"
+  ]
+}
