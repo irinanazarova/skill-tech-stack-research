@@ -2,7 +2,7 @@
 name: research-tech-stack
 description: Research a startup's real tech stack by triangulating GitHub repos, job postings, engineering blogs, and other sources. Use when asked about a company's technology, backend language, infrastructure, or engineering stack.
 argument-hint: [company-name or domain]
-allowed-tools: WebSearch, WebFetch, Bash(gh *), Read, Write, Glob, Grep, Task
+allowed-tools: WebSearch, WebFetch, Bash(gh *), Bash(mkdir *), Bash(curl *), Read, Write, Glob, Grep, Task
 ---
 
 # Tech Stack Research Skill
@@ -17,6 +17,13 @@ Before researching, do these first:
 
 1. **Dedup check**: Look for `tech-stacks/{company-slug}.md` in the current project directory. If it already exists, tell the user and ask whether to re-research or skip. Don't redo work silently.
 2. **Gitignore**: If the current directory is a git repo, check whether `tech-stacks/` is in `.gitignore`. If not, add it — research output shouldn't be committed accidentally.
+3. **Permissions**: This skill needs to run many searches and API calls without interruption. Before starting research, ask the user to approve these permissions for the session so work isn't blocked mid-research:
+   - `WebSearch` — searching the web for job postings, blogs, case studies
+   - `WebFetch` — fetching job boards (Greenhouse, Ashby), blog posts, documentation
+   - `Bash(gh *)` — GitHub CLI to list repos, check forks, read dependency files
+   - `Bash(mkdir *)` — creating the tech-stacks output directory
+   - `Write` — saving the final research file
+   - `Task` — launching parallel research agents
 
 ## CRITICAL RULES
 
