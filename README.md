@@ -4,9 +4,17 @@ A [Claude Code](https://code.claude.com) plugin that researches a company's **re
 
 ## Install
 
+Add the marketplace, then install the plugin:
+
 ```
 /plugin marketplace add irinanazarova/skill-tech-stack-research
 /plugin install research-tech-stack@skill-tech-stack-research
+```
+
+To test locally during development:
+
+```bash
+claude --plugin-dir ./research-tech-stack
 ```
 
 ## Usage
@@ -25,7 +33,7 @@ A [Claude Code](https://code.claude.com) plugin that researches a company's **re
 4. Checks cloud provider case studies and engineer profiles
 5. Detects infrastructure signals (Sidekiq = Ruby, Celery = Python, etc.)
 6. Cross-references everything and outputs a structured assessment with confidence ratings
-7. Saves results to `tech-stacks/{company-slug}.md` in your project directory
+7. Saves results to `tech-stacks/{company-slug}.md`
 
 It cuts through common misleading signals — TypeScript on the frontend doesn't mean TypeScript on the backend, a Python SDK doesn't mean a Python platform, and many companies hide their "boring" Rails/Django backend behind flashy marketing.
 
@@ -33,7 +41,6 @@ It cuts through common misleading signals — TypeScript on the frontend doesn't
 
 Each run produces a dated markdown file with:
 
-- **What they do** — one-line company description
 - **Core Backend** — language/framework with confidence level and evidence
 - **Frontend** — framework with sources
 - **Databases** — OLTP, analytics, caching
@@ -41,6 +48,15 @@ Each run produces a dated markdown file with:
 - **Key Architectural Patterns** — e.g., "dual-language: Rails for platform, Go for agents"
 - **Confidence Notes** — what's confirmed vs. inferred
 - **All sources** — every URL consulted
+
+## Skill structure
+
+```
+research-tech-stack/skills/research-tech-stack/
+├── SKILL.md       # Core methodology, critical rules, research procedure
+├── signals.md     # Fork cheat sheet, infra→backend mapping, category calibration
+└── template.md    # Output format template
+```
 
 ## License
 
