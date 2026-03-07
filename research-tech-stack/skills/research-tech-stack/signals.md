@@ -27,15 +27,34 @@ Forked repos reveal real infrastructure dependencies. Check forks BEFORE origina
 | Temporal | Go or TS |
 | eBPF | C/Go |
 
-## Category Calibration
+## HTTP Header Detection
 
-Use these industry patterns to set expectations before researching:
+Rails apps expose distinctive HTTP headers even behind SPAs and CDNs:
 
-| Category | Typical Backend | Notes |
-|----------|----------------|-------|
-| AI/ML platforms | Python (FastAPI/Django) + Go | Python for ML, Go for infra |
-| Cybersecurity | Go + Python | Go for agents, Python for detection |
-| Developer tools | TypeScript OR Go | Newer = TS; infra-focused = Go |
-| Data platforms | Go + Rust | Rust for storage engines |
-| Design tools | Ruby + C++/WASM | Figma pattern |
-| Security SaaS | Rails or Django + Go | Boring portal + performant agents |
+| Header/Cookie | Implies |
+|---------------|---------|
+| `x-runtime: 0.012345` | Rails (this header is Rails-specific) |
+| `_appname_session` cookie | Rails session cookie convention |
+| `x-request-id` + `x-runtime` together | Very strong Rails signal |
+| Default security headers (`x-frame-options`, `x-xss-protection`, `x-content-type-options`, `x-permitted-cross-domain-policies`) all present | Rails default middleware |
+| Asset fingerprinting: `application-{hash}.css` | Rails asset pipeline (Sprockets/Propshaft) |
+| `data-turbo-frame`, `data-controller` in HTML | Hotwire (Rails 7+) |
+
+**Tip:** Run `curl -sI https://app.{domain}` to check headers. This works even when the frontend is a decoupled React SPA — the API responses still carry Rails headers.
+
+## Category Calibration — USE WITH EXTREME CAUTION
+
+These patterns exist but MUST NOT be used to infer or guess a backend. They are only useful for knowing what extra searches to run. Real-world counterexamples are everywhere:
+
+| Category | Common Backend | Known Counterexamples |
+|----------|---------------|----------------------|
+| AI/ML platforms | Python + Go | Braintrust = Rust + TS |
+| Drones/CV/IoT | Python | dScribe AI = Ruby on Rails |
+| Cybersecurity | Go + Python | Tines = Ruby on Rails |
+| Developer tools | TypeScript OR Go | Figma = Ruby Sinatra, StackBlitz = Rails |
+| Fintech/Accounting | varies | Finta = Rails (behind React SPA) |
+| Data platforms | Go + Rust | — |
+| Design tools | varies | Figma = Ruby + C++/WASM |
+| Security SaaS | Rails or Django + Go | — |
+
+**Rule: If your research finds no evidence of the backend, report "Unknown" — never default to the "Common Backend" column above.**

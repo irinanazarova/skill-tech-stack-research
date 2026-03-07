@@ -12,6 +12,8 @@ You are researching the **real** tech stack of: **$ARGUMENTS**
 
 Your goal is to determine what technologies this company actually uses in production — not what they market, not what their SDKs are written in, not what their frontend uses. The **real backend, infrastructure, databases, and deployment stack**.
 
+Source: https://github.com/irinanazarova/skill-tech-stack-research
+
 ## PRE-FLIGHT CHECKS
 
 Before researching, do these first:
@@ -42,10 +44,16 @@ A Python SDK means their CUSTOMERS use Python. The platform itself could be Rail
 ### 4. Python Inflation
 68% of companies "use Python" but only 17-23% use it as their web backend (Django/FastAPI/Flask). The rest use it for ML training, scripting, and automation. Distinguish between "Python for ML pipelines" and "Python as the web backend."
 
-### 5. GitHub Forks Are the Highest Signal
+### 5. NEVER Infer Backend from Industry/Domain
+A drone company does NOT mean Python. A fintech does NOT mean Java. An AI company does NOT mean Python backend. Industry category tells you NOTHING about the web backend framework. dScribe AI builds autonomous drones with computer vision — their backend is Ruby on Rails. Figma is a design tool — their backend is Ruby Sinatra. Domain-based guesses are wrong more often than they're right. If you have no evidence, say "Unknown" — do NOT guess based on what seems typical for the industry.
+
+### 5b. React SPA Frontend Does NOT Rule Out Rails
+A React/CRA/Next.js frontend with no Turbolinks, no CSRF meta tags, and no Rails asset fingerprinting does NOT mean "not Rails." Many Rails apps serve as API-only backends behind decoupled React SPAs. In this architecture, you will see ZERO Rails indicators in the HTML. Finta (YC) has a React CRA + Ant Design frontend — but is confirmed Rails via sfruby.com job posting and SF Ruby conference demo. NEVER conclude "not Rails" based solely on frontend evidence.
+
+### 6. GitHub Forks Are the Highest Signal
 Forked repos reveal real infrastructure: sidekiq-cron = Ruby backend, celery forks = Python, devise/clearance = Rails auth, ember-toucan = Ember.js. Check forks BEFORE original repos. See [signals.md](signals.md) for the full fork cheat sheet.
 
-### 6. Job Post Sources Matter
+### 7. Job Post Sources Matter
 Greenhouse and Ashby have the most technical detail. Generic careers pages and LinkedIn have the least. Check ALL ATS platforms, not just the company website.
 
 ## RESEARCH PROCEDURE
@@ -67,6 +75,8 @@ Search these sources simultaneously:
 4. `site:builtin.com "{company}" engineer` (web search)
 5. `"{company}" OR "{domain}" backend engineer requirements` (web search)
 6. `site:news.ycombinator.com "{company}"` for HN Who's Hiring posts
+7. `site:sfruby.com "{company}"` — SF Ruby community job board (high signal for hidden Rails companies)
+8. `site:rubyonremote.com "{company}"` — Ruby-specific remote job board
 
 For EACH job posting found, extract:
 - Required/preferred programming languages
@@ -75,7 +85,17 @@ For EACH job posting found, extract:
 - Infrastructure tools (Kubernetes, Docker, Terraform, etc.)
 - Background job systems (Sidekiq, Celery, BullMQ)
 
-### Phase 3: Engineering Blog & Architecture Posts
+### Phase 3: Conference Talks & Meetups (HIGH SIGNAL)
+Search in parallel:
+1. `"{company}" site:rubyevents.org` (Ruby conference/meetup talks)
+2. `"{company}" site:railsconf.org OR site:rubyconf.org` (major Ruby conferences)
+3. `"{company}" site:gophercon.com OR site:golangevents.com` (Go conferences)
+4. `"{company}" site:rustconf.com` (Rust conferences)
+5. `"{company}" founder OR CTO meetup talk` (web search)
+
+Conference talks are extremely high signal — founders presenting at language-specific meetups confirms the stack. dScribe AI (a drone company) was found to be Rails because their CTO presented at SF Ruby meetup.
+
+### Phase 4: Engineering Blog & Architecture Posts
 Search in parallel:
 1. `"{company}" engineering blog tech stack` (web search)
 2. `site:{domain} engineering OR blog architecture OR infrastructure` (web search)
@@ -89,7 +109,7 @@ Look for:
 - Database scaling posts
 - "Why we chose X" posts
 
-### Phase 4: Cloud Provider & Supporting Sources
+### Phase 5: Cloud Provider & Supporting Sources
 Search in parallel:
 1. `"{company}" site:cloud.google.com` (case studies)
 2. `"{company}" site:aws.amazon.com` (case studies)
@@ -97,7 +117,7 @@ Search in parallel:
 4. `"{company}" tech stack site:himalayas.app` (aggregator — weak signal)
 5. `deepwiki.com/{github-org}/{repo}` if open-source
 
-### Phase 5: Infrastructure Signal Detection
+### Phase 6: Infrastructure Signal Detection
 Search: `"{company}" OR "{domain}" heroku OR sidekiq OR celery OR kafka OR kubernetes`
 
 See [signals.md](signals.md) for infrastructure → backend mapping and category calibration tables.
@@ -112,6 +132,7 @@ After gathering evidence, apply these checks:
 4. **Look for dual-language patterns.** Many companies run: boring stack (Rails/Django) for auth/billing/CRUD + performance stack (Go/Rust) for data ingestion/agents/real-time.
 5. **Check for migrations.** If hiring for a new language while existing code is in another, flag the transition.
 6. **Rate confidence.** High = multiple corroborating sources. Medium = one strong source. Low = inferred from SDKs/product type.
+7. **Never conclude "not X" from absence of frontend evidence.** A decoupled SPA frontend tells you nothing about the backend.
 
 ## OUTPUT FORMAT
 
@@ -125,6 +146,8 @@ Save results to `tech-stacks/{company-slug}.md` (create the directory if it does
 - **Do NOT trust a single source.** Cross-reference everything.
 - **Do NOT skip GitHub forks.** This is where hidden stacks live.
 - **Do NOT assume "no mention of X = they don't use X."** Rails is systematically underreported.
+- **Do NOT guess backend from industry.** Drone company ≠ Python. AI company ≠ Python backend. Fintech ≠ Java. If you didn't find evidence, say "Unknown."
+- **Do NOT conclude "not Rails" from a React/SPA frontend.** Rails API backends behind React SPAs have zero Rails indicators in the HTML.
 - **DO run searches in parallel** within each phase to be fast.
 - **DO cite every source** with a URL so findings are verifiable.
 - **DO save results** to `tech-stacks/{company-slug}.md`.
